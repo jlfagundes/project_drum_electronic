@@ -1,4 +1,4 @@
-# Project Drum Electronic
+# Project Drum Electronic <img src="./img/bateria.png" width=100>
 Este projeto visa o desenvolvimento de uma bateria eletrônica usando arquivos de audio para gerar som.
 
 ### Para executar o projeto, siga os passoa abaixo:
