@@ -1,4 +1,4 @@
-# project_drum_electronic
+# Project Drum Electronic
 Este projeto visa o desenvolvimento de uma bateria eletrônica usando arquivos de audio para gerar som.
 
 ### Para executar o projeto, siga os passoa abaixo:
