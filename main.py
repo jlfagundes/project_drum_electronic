@@ -38,6 +38,33 @@ active_length = 0
 active_beat = 1
 beat_changed = True
 
+# carregando os sons (quando tem diretorio usar "/" não "\")
+# https://python-forum.io/thread-31219.html link de referencia para o problema encontrado
+hi_hat = mixer.Sound('sounds/hi hat.WAV')
+snare = mixer.Sound('sounds/snare.WAV')
+kick = mixer.Sound('sounds/kick.WAV')
+crash = mixer.Sound('sounds/crash.wav')
+clap = mixer.Sound('sounds/clap.wav')
+tom = mixer.Sound('sounds/tom.WAV')
+
+
+def play_notes():
+  for i in range(len(clicked)):
+    if clicked[i][active_beat] == 1:
+      if i == 0:
+        hi_hat.play()
+      if i == 1:
+        snare.play()
+      if i == 2:
+        kick.play()
+      if i == 3:
+        crash.play()
+      if i == 4:
+        clap.play()
+      if i == 5:
+        tom.play()
+
+
 def draw_grid(clicks, beat):
   # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
   lef_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
@@ -102,10 +129,13 @@ while run:
   # grade de desenho
   boxes = draw_grid(clicked, active_beat)
 
-  # verificar click nas boxes
+  # verificando mudança de ritmo
+  if beat_changed:
+    play_notes()
+    beat_changed = False
 
 
-  # manipulação de eventos
+  # verificar click nas boxes e manipulação de eventos
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
