@@ -1,4 +1,5 @@
 # importanto pygame e mixer
+from re import T
 import pygame
 from pygame import mixer 
 
@@ -155,13 +156,30 @@ def draw_load_menu():
   pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
   menu_text = label_font.render('LOAD MENU: Select a beat to load', True, white)
   screen.blit(menu_text, (400, 40))
-  loading_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100], 0, 5)
+  loading_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.87, 400, 100], 0, 5)
   loading_text = label_font.render('Load Beat', True, white)
-  screen.blit(loading_text, (WIDTH // 2 - 70, HEIGHT * 0.75 + 30))
+  screen.blit(loading_text, (WIDTH // 2 - 70, HEIGHT * 0.87 + 30))
+  delete_btn = pygame.draw.rect(screen, gray, [(WIDTH // 2) - 500, HEIGHT * 0.87, 200, 100], 0, 5)
+  delete_text = label_font.render('Delete Beat', True, white)
+  screen.blit(delete_text, ((WIDTH // 2) - 485, HEIGHT * 0.87 + 30))
   exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
   exit_text = label_font.render('Close', True, white)
   screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
-  return exit_btn
+  
+  # caixa de seleção
+  loaded_rectangle = pygame.draw.rect(screen, gray, [190, 90, 1000, 600], 3, 5)
+  
+  # extraindo nome da batida salva no arquivo txt
+  for beat in range(len(saved_beats)):
+    if beat < 10:
+      beat_clicked = []
+      row_text = medium_font.render(f'{beat + 1}', True, white)
+      screen.blit(row_text, (200, 100 + beat * 50))
+      name_index_start = saved_beats[beat].index('name: ') + 6
+      name_index_end = saved_beats[beat].index(', beats:')
+      name_text = medium_font.render(saved_beats[beat][name_index_start:name_index_end], True, white)
+      screen.blit(name_text, (240, 100 + beat * 50))
+  return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 
 
@@ -224,7 +242,7 @@ while run:
   screen.blit(save_text, (920, HEIGHT - 140))
   load_button = pygame.draw.rect(screen, gray, [900, HEIGHT - 100, 200, 48], 0, 5)
   load_text = label_font.render('Load Beat', True, white)
-  screen.blit(save_text, (920, HEIGHT - 90))
+  screen.blit(load_text, (920, HEIGHT - 90))
 
   # limpar batidas
   clear_button = pygame.draw.rect(screen, gray, [1150, HEIGHT - 150, 200, 100], 0, 5)
@@ -235,7 +253,7 @@ while run:
   if save_menu:
     exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)
   if load_menu:
-    exit_button = draw_load_menu()
+    exit_button, loading_btn, delete_btn, loaded_rectangle = draw_load_menu()
 
   # verificando mudança de ritmo
   if beat_changed:
