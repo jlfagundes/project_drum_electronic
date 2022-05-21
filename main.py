@@ -47,6 +47,9 @@ crash = mixer.Sound('sounds/crash.wav')
 clap = mixer.Sound('sounds/clap.wav')
 tom = mixer.Sound('sounds/tom.WAV')
 
+# tratando falta de som quando executado rapido com + 3 canais
+pygame.mixer.set_num_channels(instruments * 3)
+
 
 def play_notes():
   for i in range(len(clicked)):
