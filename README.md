@@ -1,6 +1,12 @@
 # Project Drum Electronic <img src="./img/bateria.png" width=100>
 Este projeto visa o desenvolvimento de uma bateria eletrônica usando arquivos de audio para gerar som.
 
+#### Meus Comentários
+
+Neste projeto é possivel criar musica baseado em sons de uma bateria eletrônica, é possivel salvar as musicas, e também carregar as musicas que foram salvas, para o desenvolvimento deste projeto foi utilizado um tutorial do freecodeCamp.org que está nas refências no final deste documento.
+
+Tive a oportunidade de conhecer e praticar um pouco mais de Python, aprendi muito com essa experiência, um dos desafios foi o uso da biblioteca pygame, que não conhecia até a execução deste projeto. Foi utilizado o Visual Studio Code como ferramenta para desenvolvimento do código e o Git e Github para commitar e publicar o repositório.
+
 #### Para executar o projeto, siga os passoa abaixo:
 
 1. Clone o repositório
