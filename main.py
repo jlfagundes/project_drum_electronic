@@ -1,5 +1,4 @@
 # importanto pygame e mixer
-from tkinter import W
 import pygame
 from pygame import mixer 
 
@@ -23,9 +22,11 @@ label_font = pygame.font.Font('freesansbold.ttf', 32)
 # taxa de quadros
 fps = 60
 timer = pygame.time.Clock()
+beats = 8
+instruments = 6
 
 def draw_grid():
-  # rect(display, cor, [posição e altura], espessura da borda)
+  # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
   lef_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
   bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
   boxes = []
@@ -48,9 +49,15 @@ def draw_grid():
   screen.blit(floor_text, (30, 530))
 
   # craindo linhas
-  for i in range(6):
+  for i in range(instruments):
     # line(tela, cor, inicia da linha, fim da linha, espessora da linha)
     pygame.draw.line(screen, gray, (0, (i * 100) +100), (200, (i * 100) + 100), 5)
+
+  # criando retangulos para as batidas
+  for i in range(beats):
+    for j in range(instruments):
+      rect = pygame.draw.rect(screen, gray, [i * ((WIDTH - 200) // beats) + 200, (j * 100),
+        ((WIDTH - 200) // beats), ((HEIGHT - 200) // instruments)], 5, 5)
 
 
 
