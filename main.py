@@ -38,6 +38,12 @@ playing = False
 active_length = 0
 active_beat = 0
 beat_changed = True
+save_menu = False
+load_menu = False
+saved_beats = []
+file = open('saved_beats.txt', 'r')
+for line in file:
+  saved_beats.append(line)
 
 # carregando os sons (quando tem diretorio usar "/" não "\")
 # https://python-forum.io/thread-31219.html link de referencia para o problema encontrado
@@ -125,6 +131,21 @@ def draw_grid(clicks, beat, actives):
       ((WIDTH - 200) // beats), instruments * 100], 5, 3)
   return boxes
 
+def draw_save_menu():
+  pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
+  exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
+  exit_text = label_font.render('Close', True, white)
+  screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
+  return exit_btn
+
+
+def draw_load_menu():
+  pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
+  exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
+  exit_text = label_font.render('Close', True, white)
+  screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
+  return exit_btn
+
 
 
 # variavel de execução
@@ -193,6 +214,11 @@ while run:
   clear_text = label_font.render('Clear Board', True, white)
   screen.blit(clear_text, (1160, HEIGHT - 120))
 
+  # Verificar load_menu and save_menu
+  if save_menu:
+    exit_button = draw_save_menu()
+  if load_menu:
+    exit_button = draw_load_menu()
 
   # verificando mudança de ritmo
   if beat_changed:
@@ -204,7 +230,7 @@ while run:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
-    if event.type == pygame.MOUSEBUTTONDOWN:
+    if event.type == pygame.MOUSEBUTTONDOWN and not save_menu and not load_menu:
       for i in range(len(boxes)):
         # pegando as coordenadas do mouse usando função collidepoint()
         if boxes[i][0].collidepoint(event.pos):
@@ -213,7 +239,7 @@ while run:
           clicked[coords[1]][coords[0]] *= -1
 
     # capturando click botão pause
-    if event.type == pygame.MOUSEBUTTONUP:
+    if event.type == pygame.MOUSEBUTTONUP and not save_menu and not load_menu:
       if play_pause.collidepoint(event.pos):
         if playing:
           playing = False
@@ -240,10 +266,23 @@ while run:
       elif clear_button.collidepoint(event.pos):
         clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
 
+      # capturando click em salvar e carregar arquivo
+      elif save_button.collidepoint(event.pos):
+        save_menu = True
+      elif load_button.collidepoint(event.pos):
+        load_menu = True
+
       # capturando click nos instrumentos
       for i in range(len(instruments_rect)):
         if instruments_rect[i].collidepoint(event.pos):
           active_list[i] *= -1
+
+    elif event.type == pygame.MOUSEBUTTONUP:
+      if exit_button.collidepoint(event.pos):
+          save_menu = False
+          load_menu = False
+          playing = True
+
 
 
   # controle de duração de batida
