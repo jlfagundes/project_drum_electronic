@@ -1,4 +1,6 @@
 # importanto pygame e mixer
+from pydoc import cli
+from tkinter import EventType
 import pygame
 from pygame import mixer 
 
@@ -13,6 +15,8 @@ HEIGHT = 800
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
+green = (0, 255, 0)
+gold = (212, 175, 55)
 
 # criando a tela e definindo a legenda
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -24,8 +28,11 @@ fps = 60
 timer = pygame.time.Clock()
 beats = 8
 instruments = 6
+boxes = []
+# lista de beats
+clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
 
-def draw_grid():
+def draw_grid(clicks):
   # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
   lef_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
   bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
@@ -56,8 +63,23 @@ def draw_grid():
   # criando retangulos para as batidas
   for i in range(beats):
     for j in range(instruments):
-      rect = pygame.draw.rect(screen, gray, [i * ((WIDTH - 200) // beats) + 200, (j * 100),
+      if clicks[j][i] == -1:
+        color = gray
+      else:
+        color = green
+
+      rect = pygame.draw.rect(screen, color, [i * ((WIDTH - 200) // beats) + 205, (j * 100) + 5,
+        ((WIDTH - 200) // beats) - 10, ((HEIGHT - 200) // instruments) - 10], 0, 3)
+
+      pygame.draw.rect(screen, gold, [i * ((WIDTH - 200) // beats) + 200, (j * 100),
         ((WIDTH - 200) // beats), ((HEIGHT - 200) // instruments)], 5, 5)
+
+      pygame.draw.rect(screen, black, [i * ((WIDTH - 200) // beats) + 200, (j * 100),
+        ((WIDTH - 200) // beats), ((HEIGHT - 200) // instruments)], 2, 5)
+
+      # armazenando os rectangulos, nos boxes, com posição de linha (i) e coluna (j)
+      boxes.append((rect, (i, j)))
+  return boxes
 
 
 
@@ -68,12 +90,22 @@ while run:
   screen.fill(black)
 
   # grade de desenho
-  draw_grid()
+  boxes = draw_grid(clicked)
+
+  # verificar click nas boxes
+
 
   # manipulação de eventos
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
+    if event.type == pygame.MOUSEBUTTONDOWN:
+      for i in range(len(boxes)):
+        # pegando as coordenadas do mouse usando função collidepoint()
+        if boxes[i][0].collidepoint(event.pos):
+          coords = boxes[i][1]
+          # lista de beats clicked
+          clicked[coords[1]][coords[0]] *= -1
   
   pygame.display.flip()
 pygame.quit()
