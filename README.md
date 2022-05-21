@@ -17,3 +17,8 @@ Este projeto visa o desenvolvimento de uma bateria eletrônica usando arquivos d
 
 - `python3 -m pip install -r requirements.txt`
 
+
+#### Referências
+- <a href="https://hiphopmakers.com/40-free-music-producer-free-drum-kits">Drum Machine with Python and Pygame – Full Project Course - freeCodeCamp.org</a>
+- <a href="https://hiphopmakers.com/40-free-music-producer-free-drum-kits">Songs files</a>
+
