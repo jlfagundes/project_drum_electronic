@@ -22,6 +22,6 @@ Este projeto visa o desenvolvimento de uma bateria eletrônica usando arquivos d
 
 
 #### Referências
-- <a href="https://hiphopmakers.com/40-free-music-producer-free-drum-kits">Drum Machine with Python and Pygame – Full Project Course - freeCodeCamp.org</a>
+- <a href="https://www.freecodecamp.org/news/create-a-drum-machine-with-python-and-pygame/">Drum Machine with Python and Pygame – Full Project Course - freeCodeCamp.org</a>
 - <a href="https://hiphopmakers.com/40-free-music-producer-free-drum-kits">Songs files</a>
 
