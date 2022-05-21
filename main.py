@@ -21,8 +21,8 @@ dark_gray = (50, 50, 50)
 # criando a tela e definindo a legenda
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Electronic Beat Maker')
-label_font = pygame.font.Font('freesansbold.ttf', 32)
-medium_font = pygame.font.Font('freesansbold.ttf', 24)
+label_font = pygame.font.Font('freesansbold.ttf', 24)
+medium_font = pygame.font.Font('freesansbold.ttf', 16)
 
 # taxa de quadros
 fps = 60
@@ -33,9 +33,9 @@ boxes = []
 # lista de beats
 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
 bpm = 240
-playing = True
+playing = False
 active_length = 0
-active_beat = 1
+active_beat = 0
 beat_changed = True
 
 # carregando os sons (quando tem diretorio usar "/" não "\")
@@ -142,6 +142,20 @@ while run:
     play_text2 = medium_font.render('Pause', True, dark_gray)
   screen.blit(play_text2, (70, HEIGHT - 100))
 
+  # controle de bpm
+  bpm_rect = pygame.draw.rect(screen, gray, [300, HEIGHT - 150, 200, 100], 5, 5)
+  bpm_text = medium_font.render('Beats per Minute', True, white)
+  screen.blit(bpm_text, (308, HEIGHT - 130))
+  bpm_text2 = label_font.render(f'{bpm}', True, white)
+  screen.blit(bpm_text2, (370, HEIGHT - 100))
+  bpm_add_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 150, 48, 48], 0, 5)
+  bpm_sub_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 100, 48, 48], 0, 5)
+  add_text = label_font.render('+5', True, white)
+  sub_text = label_font.render('-5', True, white)
+  screen.blit(add_text, (520, HEIGHT - 140))
+  screen.blit(sub_text, (520, HEIGHT - 90))
+
+
 
   # verificando mudança de ritmo
   if beat_changed:
@@ -168,6 +182,12 @@ while run:
           playing = False
         elif not playing:
           playing = True
+
+      # capturando click para aumentar ou diminuir batidas
+      elif bpm_add_rect.collidepoint(event.pos):
+        bpm += 5
+      elif bpm_sub_rect.collidepoint(event.pos):
+        bpm -= 5
 
   # controle de duração de batida
   beat_length = 3600 // bpm
