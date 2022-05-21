@@ -32,6 +32,7 @@ instruments = 6
 boxes = []
 # lista de beats
 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
+active_list = [1 for _ in range(instruments)]
 bpm = 240
 playing = False
 active_length = 0
@@ -53,7 +54,7 @@ pygame.mixer.set_num_channels(instruments * 3)
 
 def play_notes():
   for i in range(len(clicked)):
-    if clicked[i][active_beat] == 1:
+    if clicked[i][active_beat] == 1 and active_list[i] == 1:
       if i == 0:
         hi_hat.play()
       if i == 1:
@@ -68,7 +69,7 @@ def play_notes():
         tom.play()
 
 
-def draw_grid(clicks, beat):
+def draw_grid(clicks, beat, actives):
   # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
   lef_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
   bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
@@ -77,18 +78,18 @@ def draw_grid(clicks, beat):
   colors = [gray, white, gray]
 
   # botão dos instrumentos
-  hi_hat_text = label_font.render('Hi Hat', True, white)
+  hi_hat_text = label_font.render('Hi Hat', True, colors[actives[0]])
   # blit(texto, posição) renderiza o texto na tela
   screen.blit(hi_hat_text, (30, 30))
-  snare_text = label_font.render('Snare', True, white)
+  snare_text = label_font.render('Snare', True, colors[actives[1]])
   screen.blit(snare_text, (30, 130))
-  kick_text = label_font.render('Bass Drum', True, white)
+  kick_text = label_font.render('Bass Drum', True, colors[actives[2]])
   screen.blit(kick_text, (30, 230))
-  crash_text = label_font.render('Crash', True, white)
+  crash_text = label_font.render('Crash', True, colors[actives[3]])
   screen.blit(crash_text, (30, 330))
-  clap_text = label_font.render('Clap', True, white)
+  clap_text = label_font.render('Clap', True, colors[actives[4]])
   screen.blit(clap_text, (30, 430))
-  floor_text = label_font.render('Floor Tom', True, white)
+  floor_text = label_font.render('Floor Tom', True, colors[actives[5]])
   screen.blit(floor_text, (30, 530))
 
   # craindo linhas
@@ -102,7 +103,10 @@ def draw_grid(clicks, beat):
       if clicks[j][i] == -1:
         color = gray
       else:
-        color = green
+        if active_list[j] == 1:
+          color = green
+        else:
+          color = dark_gray
 
       rect = pygame.draw.rect(screen, color, [i * ((WIDTH - 200) // beats) + 205, (j * 100) + 5,
         ((WIDTH - 200) // beats) - 10, ((HEIGHT - 200) // instruments) - 10], 0, 3)
@@ -130,7 +134,7 @@ while run:
   screen.fill(black)
 
   # grade de desenho
-  boxes = draw_grid(clicked, active_beat)
+  boxes = draw_grid(clicked, active_beat, active_list)
 
   # botão de pause
   play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
@@ -167,6 +171,13 @@ while run:
   sub_text2 = label_font.render('-1', True, white)
   screen.blit(add_text2, (820, HEIGHT - 140))
   screen.blit(sub_text2, (820, HEIGHT - 90))
+
+  # controle de instrumentos
+  instruments_rect = []
+  for i in range(instruments):
+    # criar um retangula sem colocar na tela, usa tupla ao inves de lista com 4 caracteristicas
+    rect = pygame.rect.Rect((0, i * 100), (200, 100))
+    instruments_rect.append(rect)
 
 
 
@@ -211,6 +222,12 @@ while run:
         beats -= 1
         for i in range(len(clicked)):
           clicked[i].pop(-1)
+
+      # capturando click nos instrumentos
+      for i in range(len(instruments_rect)):
+        if instruments_rect[i].collidepoint(event.pos):
+          active_list[i] *= -1
+
 
   # controle de duração de batida
   beat_length = 3600 // bpm
