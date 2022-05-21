@@ -17,6 +17,7 @@ white = (255, 255, 255)
 gray = (128, 128, 128)
 green = (0, 255, 0)
 gold = (212, 175, 55)
+blue = (0, 255, 255)
 
 # criando a tela e definindo a legenda
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -37,7 +38,7 @@ active_length = 0
 active_beat = 1
 beat_changed = True
 
-def draw_grid(clicks):
+def draw_grid(clicks, beat):
   # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
   lef_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)
   bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5)
@@ -84,6 +85,10 @@ def draw_grid(clicks):
 
       # armazenando os rectangulos, nos boxes, com posição de linha (i) e coluna (j)
       boxes.append((rect, (i, j)))
+
+    # linha para saber a batida que esta tocando
+    active = pygame.draw.rect(screen, blue, [beat * ((WIDTH - 200) // beats) + 200, 0,
+      ((WIDTH - 200) // beats), instruments * 100], 5, 3)
   return boxes
 
 
@@ -95,7 +100,7 @@ while run:
   screen.fill(black)
 
   # grade de desenho
-  boxes = draw_grid(clicked)
+  boxes = draw_grid(clicked, active_beat)
 
   # verificar click nas boxes
 
