@@ -31,6 +31,11 @@ instruments = 6
 boxes = []
 # lista de beats
 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
+bpm = 240
+playing = True
+active_length = 0
+active_beat = 1
+beat_changed = True
 
 def draw_grid(clicks):
   # rect(display, cor, [posição e altura], espessura da borda, arredondamento do canto)
@@ -106,6 +111,23 @@ while run:
           coords = boxes[i][1]
           # lista de beats clicked
           clicked[coords[1]][coords[0]] *= -1
+
+  # controle de duração de batida
+  beat_length = 3600 // bpm
+
+  # if estiver jogando então
+  if playing:
+    if active_length < beat_length:
+      active_length += 1
+    else:
+      active_length = 0
+      if active_beat < beats - 1:
+        active_beat += 1
+        beat_changed = True
+      else:
+        active_beat = 0
+        beat_changed = True
+
   
   pygame.display.flip()
 pygame.quit()
