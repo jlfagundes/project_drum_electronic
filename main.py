@@ -21,7 +21,7 @@ dark_gray = (50, 50, 50)
 
 # criando a tela e definindo a legenda
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption('Electronic Beat Maker')
+pygame.display.set_caption('Bateria Eletrônica')
 label_font = pygame.font.Font('freesansbold.ttf', 24)
 medium_font = pygame.font.Font('freesansbold.ttf', 16)
 
@@ -88,18 +88,18 @@ def draw_grid(clicks, beat, actives):
   colors = [gray, white, gray]
 
   # botão dos instrumentos
-  hi_hat_text = label_font.render('Hi Hat', True, colors[actives[0]])
+  hi_hat_text = label_font.render('Chimbal', True, colors[actives[0]])
   # blit(texto, posição) renderiza o texto na tela
   screen.blit(hi_hat_text, (30, 30))
-  snare_text = label_font.render('Snare', True, colors[actives[1]])
+  snare_text = label_font.render('Caixa', True, colors[actives[1]])
   screen.blit(snare_text, (30, 130))
-  kick_text = label_font.render('Bass Drum', True, colors[actives[2]])
+  kick_text = label_font.render('Bumbo', True, colors[actives[2]])
   screen.blit(kick_text, (30, 230))
-  crash_text = label_font.render('Crash', True, colors[actives[3]])
+  crash_text = label_font.render('Prato', True, colors[actives[3]])
   screen.blit(crash_text, (30, 330))
-  clap_text = label_font.render('Clap', True, colors[actives[4]])
+  clap_text = label_font.render('Aplauso', True, colors[actives[4]])
   screen.blit(clap_text, (30, 430))
-  floor_text = label_font.render('Floor Tom', True, colors[actives[5]])
+  floor_text = label_font.render('Surdo', True, colors[actives[5]])
   screen.blit(floor_text, (30, 530))
 
   # craindo linhas
@@ -137,13 +137,13 @@ def draw_grid(clicks, beat, actives):
 
 def draw_save_menu(beat_name, _typing):
   pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
-  menu_text = label_font.render('SAVE MENU: Enter name for current beats', True, white)
+  menu_text = label_font.render('MENU SALVAR: Digite o nome da batida', True, white)
   screen.blit(menu_text, (400, 40))
   saving_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100], 0, 5)
-  saving_text = label_font.render('Save Beat', True, white)
+  saving_text = label_font.render('Salvar Batida', True, white)
   screen.blit(saving_text, (WIDTH // 2 - 70, HEIGHT * 0.75 + 30))
   exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
-  exit_text = label_font.render('Close', True, white)
+  exit_text = label_font.render('Fechar', True, white)
   screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
   if typing:
       entry_rect = pygame.draw.rect(screen, dark_gray, [400, 200, 600, 200], 0, 5)
@@ -225,14 +225,14 @@ while run:
   play_text = label_font.render('Play / Pause', True, white)
   screen.blit(play_text, (70, HEIGHT - 130))
   if playing:
-    play_text2 = medium_font.render('Playing', True, dark_gray)
+    play_text2 = medium_font.render('Tocando', True, dark_gray)
   else:
     play_text2 = medium_font.render('Pause', True, dark_gray)
   screen.blit(play_text2, (70, HEIGHT - 100))
 
   # controle de bpm
   bpm_rect = pygame.draw.rect(screen, gray, [300, HEIGHT - 150, 200, 100], 5, 5)
-  bpm_text = medium_font.render('Beats per Minute', True, white)
+  bpm_text = medium_font.render('Batidas por Minuto', True, white)
   screen.blit(bpm_text, (308, HEIGHT - 130))
   bpm_text2 = label_font.render(f'{bpm}', True, white)
   screen.blit(bpm_text2, (370, HEIGHT - 100))
@@ -245,7 +245,7 @@ while run:
 
   # controle de batidas
   beats_rect = pygame.draw.rect(screen, gray, [600, HEIGHT - 150, 200, 100], 5, 5)
-  beats_text = medium_font.render('Beats in loop', True, white)
+  beats_text = medium_font.render('Número de Batidas ', True, white)
   screen.blit(beats_text, (618, HEIGHT - 130))
   beats_text2 = label_font.render(f'{beats}', True, white)
   screen.blit(beats_text2, (680, HEIGHT - 100))
@@ -266,15 +266,15 @@ while run:
 
   # salvar e carrgar lista de batidas
   save_button = pygame.draw.rect(screen, gray, [900, HEIGHT - 150, 200, 48], 0, 5)
-  save_text = label_font.render('Save Beat', True, white)
+  save_text = label_font.render('Salvar', True, white)
   screen.blit(save_text, (920, HEIGHT - 140))
   load_button = pygame.draw.rect(screen, gray, [900, HEIGHT - 100, 200, 48], 0, 5)
-  load_text = label_font.render('Load Beat', True, white)
+  load_text = label_font.render('Carregar', True, white)
   screen.blit(load_text, (920, HEIGHT - 90))
 
   # limpar batidas
   clear_button = pygame.draw.rect(screen, gray, [1150, HEIGHT - 150, 200, 100], 0, 5)
-  clear_text = label_font.render('Clear Board', True, white)
+  clear_text = label_font.render('Limpar', True, white)
   screen.blit(clear_text, (1160, HEIGHT - 120))
 
   # Verificar load_menu and save_menu
