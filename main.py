@@ -1,5 +1,4 @@
 # importanto pygame e mixer
-from re import T
 import pygame
 from pygame import mixer 
 
@@ -195,18 +194,18 @@ def draw_load_menu(index):
       beat_index_end = saved_beats[beat].index(', bpm:')
       loaded_beats = int(saved_beats[beat][name_index_end + 8: beat_index_end])
       bpm_index_end = saved_beats[beat].index(', selected:')
-      loaded_bpm = int(saved_beats[beat][beat_index_end + 6:bpm_index_end])
+      loaded_bpm = int(saved_beats[beat][beat_index_end + 6: bpm_index_end])
       loaded_clicks_string = saved_beats[beat][bpm_index_end + 14: -3]
       # separando os clicks por instrumento
-      loaded_clicks_rows = list(loaded_clicks_string.split("], ["))
+      loaded_clicks_rows = list(loaded_clicks_string.split('], ['))
       for row in range(len(loaded_clicks_rows)):
         # nova lista de clicks com base na clicked salva
         loaded_clicks_row = (loaded_clicks_rows[row].split(', '))
         for item in range(len(loaded_clicks_row)):
           if loaded_clicks_row[item] == '1' or loaded_clicks_row[item] == '-1':
             loaded_clicks_row[item] = int(loaded_clicks_row[item])
-            beat_clicked.append(loaded_clicks_row)
-            loaded_clicked = beat_clicked
+        beat_clicked.append(loaded_clicks_row)
+        loaded_clicked = beat_clicked
   loaded_info = [loaded_beats, loaded_bpm, loaded_clicked]
   return exit_btn, loading_btn, delete_btn, loaded_rectangle, loaded_info
 
@@ -350,41 +349,43 @@ while run:
           typing = False
 
       # capturando batida selecionada
-      elif loaded_rectangle.collidepoint(event.pos):
-        # da um valor de 1 a 10, dizendo onde foi clicado, usa o index pra definir a batida escolhida
-        index = (event.pos[1] - 100) // 50
+      if load_menu:
+        if loaded_rectangle.collidepoint(event.pos):
+          # da um valor de 1 a 10, dizendo onde foi clicado, usa o index pra definir a batida escolhida
+          index = (event.pos[1] - 100) // 50
 
-      # capturando click no botao delete
-      elif delete_btn.collidepoint(event.pos):
-        if 0 <= index < len(saved_beats):
-          saved_beats.pop(index)
+        # capturando click no botao delete
+        if delete_btn.collidepoint(event.pos):
+          if 0 <= index < len(saved_beats):
+            saved_beats.pop(index)
 
-      # capturando click no botao loading
-      elif loading_btn.collidepoint(event.pos):
-        if 0 <= index < len(saved_beats):
-          beats = loaded_info[0]
-          bpm = loaded_info[1]
-          clicked = loaded_info[2]
-          index = 100
-          load_menu = False
+        # capturando click no botao loading
+        if loading_btn.collidepoint(event.pos):
+          if 0 <= index < len(saved_beats):
+            beats = loaded_info[0]
+            bpm = loaded_info[1]
+            clicked = loaded_info[2]
+            index = 100
+            load_menu = False
       
       # capturando click na tela salvar batida
-      elif entry_rectangle.collidepoint(event.pos):
-        if typing:
-          typing = False
-        elif not typing:
-          typing = True
+      if save_menu:
+        if entry_rectangle.collidepoint(event.pos):
+          if typing:
+            typing = False
+          elif not typing:
+            typing = True
       
-      # salvando as batidas no arquivo
-      elif saving_button.collidepoint(event.pos):
-        file = open('saved_beats.txt', 'w')
-        saved_beats.append(f'\nname: {beat_name}, beats: {beats}, bpm: {bpm}, selected: {clicked}')
-        for i in range(len(saved_beats)):
-          file.write(str(saved_beats[i]))
-        file.close()
-        save_menu = False
-        typing = False
-        beat_name = ''
+        # salvando as batidas no arquivo
+        if saving_button.collidepoint(event.pos):
+          file = open('saved_beats.txt', 'w')
+          saved_beats.append(f'\nname: {beat_name}, beats: {beats}, bpm: {bpm}, selected: {clicked}')
+          for i in range(len(saved_beats)):
+            file.write(str(saved_beats[i]))
+          file.close()
+          save_menu = False
+          typing = False
+          beat_name = ''
 
     # capturando texto digitado      
     if event.type == pygame.TEXTINPUT and typing:
