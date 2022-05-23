@@ -8,7 +8,7 @@ Neste projeto é possivel criar musica baseado em sons de uma bateria eletrônic
 Tive a oportunidade de conhecer e praticar um pouco mais de Python, aprendi muito com essa experiência, um dos desafios foi o uso da biblioteca pygame, que não conhecia até a execução deste projeto. Foi utilizado o Visual Studio Code como ferramenta para desenvolvimento do código e o Git e Github para commitar e publicar o repositório.
 
 [![Gif de exemplo do projeto](img/bateria_eletronica.gif)](https://youtu.be/_p7Za1pPqfA)
-Clique na imagem para ouvir o som
+- <a href="https://youtu.be/_p7Za1pPqfA">Clique aqui para ouvir o som</a>
 
 #
 #### Para executar o projeto, siga os passoa abaixo:
